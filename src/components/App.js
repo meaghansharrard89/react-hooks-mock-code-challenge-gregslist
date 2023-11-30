@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import ListingsContainer from "./ListingsContainer";
+import ItemForm from "./ItemForm";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -26,15 +27,28 @@ function App() {
     i.description.toLowerCase().includes(search.toLowerCase())
   )
 
+  function sortByLocation(){
+    const sortedItems = [...items].sort((a, b) => a.location.localeCompare(b.location))
+    setItems(sortedItems);
+  }
+
+  function updateNewItem(newItem){
+    setItems([...items, newItem])
+  }
+
   return (
     <div className="app">
       <Header 
         handleSearch={handleSearch}
         search={search}
+        sortByLocation={sortByLocation}
       />
       <ListingsContainer 
         items={filteredItems}
         handleDelete={handleDelete}
+      />
+      <ItemForm 
+        updateNewItem={updateNewItem}
       />
     </div>
   );
